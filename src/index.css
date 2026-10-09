@@ -1,0 +1,361 @@
+/* ─────────────────────────────────────────────────────────────
+   Lens & Legacy, design system + art directions.
+   Material language: near-neutral stages, fine texture, real
+   glass, one restrained accent, cursor-driven light.
+   ───────────────────────────────────────────────────────────── */
+
+@import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&f[]=general-sans@400,500,600,700&f[]=panchang@400,500,600,700&f[]=switzer@400,500,600,700&f[]=clash-display@400,500,600,700&f[]=satoshi@300,400,500,700,900&f[]=boska@400,500,700,401,701&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Cabinet Grotesk', 'Satoshi', system-ui, sans-serif;
+  --font-body: 'Satoshi', system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-body);
+  --font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace;
+
+  --ease-fluid: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-grain: grain 0.6s steps(4) infinite;
+  --animate-scroll-hint: scroll-hint 2.2s var(--ease-fluid) infinite;
+  --animate-spin-slow: spin 26s linear infinite;
+  --animate-spin-slower: spin 60s linear infinite;
+  --animate-sheen: sheen 7s var(--ease-soft) infinite;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+@keyframes grain {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-2%, 2%);
+  }
+  50% {
+    transform: translate(2%, -1%);
+  }
+  75% {
+    transform: translate(-1%, -2%);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+@keyframes scroll-hint {
+  0% {
+    transform: translateY(-40%);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(140%);
+    opacity: 0;
+  }
+}
+@keyframes sheen {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Direction tokens, identical variable names in every theme.
+   ───────────────────────────────────────────────────────────── */
+
+/* 01, Aurora · refined dark, glass */
+:root,
+.theme-aurora {
+  color-scheme: dark;
+  --bg: #08090b;
+  --fg: #eef0f2;
+  --muted: #9ba1a9;
+  --faint: #6a7078;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-strong: rgba(255, 255, 255, 0.16);
+  --accent: #7de0c0;
+  --accent-2: #a8f0d8;
+  --accent-ink: #04120d;
+  --surface: #0c0e11;
+  --page-bg: #08090b;
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-ring: rgba(255, 255, 255, 0.1);
+  --glass-hi: rgba(255, 255, 255, 0.14);
+  --glow: #d6f2e8;
+  --glow-alpha: 0.14;
+  --glow-blend: screen;
+  --font-display: 'Clash Display', 'Satoshi', system-ui, sans-serif;
+  --font-body: 'Satoshi', system-ui, sans-serif;
+}
+
+/* 02, Reel · dark cinematic editorial */
+.theme-reel {
+  color-scheme: dark;
+  --bg: #0a0a0b;
+  --fg: #edeae3;
+  --muted: #9a968e;
+  --faint: #6b6862;
+  --line: rgba(237, 234, 227, 0.1);
+  --line-strong: rgba(237, 234, 227, 0.18);
+  --accent: #e5484d;
+  --accent-2: #ff6b6e;
+  --accent-ink: #ffffff;
+  --surface: #101011;
+  --page-bg: #0a0a0b;
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-ring: rgba(255, 255, 255, 0.1);
+  --glass-hi: rgba(255, 255, 255, 0.14);
+  --glow: #f2e9da;
+  --glow-alpha: 0.12;
+  --glow-blend: screen;
+  --font-display: 'Panchang', 'Satoshi', system-ui, sans-serif;
+  --font-body: 'Satoshi', system-ui, sans-serif;
+}
+
+/* 03, Chrome · cool light, engineered */
+.theme-chrome {
+  color-scheme: light;
+  --bg: #edeef0;
+  --fg: #15171a;
+  --muted: #575d68;
+  --faint: #8b9099;
+  --line: rgba(21, 23, 26, 0.13);
+  --line-strong: rgba(21, 23, 26, 0.22);
+  --accent: #e8452c;
+  --accent-2: #ff6a4d;
+  --accent-ink: #ffffff;
+  --surface: #ffffff;
+  --page-bg: #edeef0;
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-ring: rgba(21, 23, 26, 0.07);
+  --glass-hi: rgba(255, 255, 255, 0.95);
+  --glow: #101418;
+  --glow-alpha: 0.05;
+  --glow-blend: multiply;
+  --font-display: 'Switzer', system-ui, sans-serif;
+  --font-body: 'Switzer', system-ui, sans-serif;
+}
+
+/* 04, Nocturne · immersive dark */
+.theme-nocturne {
+  color-scheme: dark;
+  --bg: #080b11;
+  --fg: #e9eef3;
+  --muted: #8a97a6;
+  --faint: #5f6b79;
+  --line: rgba(233, 238, 243, 0.11);
+  --line-strong: rgba(233, 238, 243, 0.2);
+  --accent: #5fd8ff;
+  --accent-2: #a6ecff;
+  --accent-ink: #04121a;
+  --surface: #0c1119;
+  --page-bg: #080b11;
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-ring: rgba(255, 255, 255, 0.11);
+  --glass-hi: rgba(255, 255, 255, 0.16);
+  --glow: #bfe6f5;
+  --glow-alpha: 0.14;
+  --glow-blend: screen;
+  --font-display: 'Cabinet Grotesk', 'Satoshi', system-ui, sans-serif;
+  --font-body: 'Satoshi', system-ui, sans-serif;
+}
+
+/* 05, Atelier · editorial portfolio (light with dark blocks) */
+.theme-atelier {
+  color-scheme: light;
+  --bg: #efefec;
+  --fg: #0e0e0e;
+  --muted: #6b6b68;
+  --faint: #9a9a96;
+  --line: rgba(14, 14, 14, 0.12);
+  --line-strong: rgba(14, 14, 14, 0.2);
+  --accent: #0e0e0e;
+  --accent-2: #e4c89a;
+  --accent-ink: #ffffff;
+  --surface: #ffffff;
+  --page-bg: #efefec;
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-ring: rgba(14, 14, 14, 0.08);
+  --glass-hi: rgba(255, 255, 255, 0.9);
+  --glow: #101014;
+  --glow-alpha: 0.05;
+  --glow-blend: multiply;
+  --font-display: 'Switzer', system-ui, sans-serif;
+  --font-body: 'General Sans', system-ui, sans-serif;
+}
+
+/* ── Base ─────────────────────────────────────────────────── */
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    transition: background-color 0.7s var(--ease-fluid), color 0.7s var(--ease-fluid);
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 0.98;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--page-bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--line-strong);
+    border-radius: 99px;
+    border: 3px solid var(--page-bg);
+  }
+}
+
+/* ── Material utilities ───────────────────────────────────── */
+
+/* film grain, fixed, cheap, never on scrolling content */
+@utility grain-overlay {
+  position: fixed;
+  inset: -20%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  will-change: transform;
+}
+
+/* glass surface, translucent fill + hairline ring + inner light.
+   No backdrop-filter so it is safe on scrolling content. */
+@utility glass {
+  background: var(--glass-bg);
+  box-shadow:
+    inset 0 1px 0 var(--glass-hi),
+    inset 0 0 0 1px var(--glass-ring);
+}
+
+/* glass with real refraction. Floating / fixed surfaces only. */
+@utility glass-blur {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  backdrop-filter: blur(24px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 var(--glass-hi),
+    inset 0 0 0 1px var(--glass-ring);
+}
+
+/* a single hairline highlight across the top edge of a panel */
+@utility sheen {
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    inset-Inline: 12%;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--glass-hi), transparent);
+    pointer-events: none;
+  }
+}
+
+@utility texture {
+  background-image: radial-gradient(var(--line) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+@utility texture-grid {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+@utility text-edge {
+  padding-bottom: 0.12em;
+}
+
+/* cursor light, tinted soft pool that follows the pointer */
+@utility cursor-glow {
+  width: 42rem;
+  height: 42rem;
+  margin-left: -21rem;
+  margin-top: -21rem;
+  border-radius: 9999px;
+  background: radial-gradient(circle, var(--glow) 0%, transparent 60%);
+  opacity: var(--glow-alpha);
+  mix-blend-mode: var(--glow-blend);
+  will-change: transform;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ── Reduced motion ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .grain-overlay {
+    animation: none !important;
+    opacity: 0.03;
+  }
+}
