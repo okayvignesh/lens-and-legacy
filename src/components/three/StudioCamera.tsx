@@ -5,18 +5,47 @@ import * as THREE from 'three'
 import type { MotionValue } from 'motion/react'
 
 /* Shared material palette for the hardware. */
-const MAT = {
+const MAT_LIGHT = {
+  body: { color: '#d9d6cf', metalness: 0.38, roughness: 0.5, envMapIntensity: 0.55 },
+  leather: { color: '#b3afa6', metalness: 0.1, roughness: 0.94, envMapIntensity: 0.3 },
+  silver: { color: '#eeedf0', metalness: 1, roughness: 0.18, envMapIntensity: 1.15 },
+  darkMetal: { color: '#8a8881', metalness: 0.7, roughness: 0.44, envMapIntensity: 0.6 },
+  amber: {
+    color: '#1b2bc9',
+    metalness: 0.5,
+    roughness: 0.3,
+    emissive: '#0d1560',
+    emissiveIntensity: 0.6,
+    envMapIntensity: 0.7,
+  },
+  copper: { color: '#8a6a3f', metalness: 1, roughness: 0.5, envMapIntensity: 0.7 },
+  glass: {
+    color: '#0a1620',
+    metalness: 0,
+    roughness: 0.03,
+    transmission: 0.97,
+    thickness: 1.5,
+    ior: 1.5,
+    clearcoat: 1,
+    clearcoatRoughness: 0.04,
+    envMapIntensity: 1,
+  },
+}
+
+type Mats = typeof MAT_LIGHT
+
+const MAT_DARK: Mats = {
   body: { color: '#0f0f12', metalness: 0.32, roughness: 0.64, envMapIntensity: 0.34 },
   leather: { color: '#070709', metalness: 0.1, roughness: 0.98, envMapIntensity: 0.18 },
   silver: { color: '#b4b4bb', metalness: 1, roughness: 0.3, envMapIntensity: 0.9 },
   darkMetal: { color: '#26262b', metalness: 0.78, roughness: 0.46, envMapIntensity: 0.5 },
   amber: {
-    color: '#7de0c0',
+    color: '#8b98ff',
     metalness: 0.5,
     roughness: 0.3,
-    emissive: '#1f6b57',
-    emissiveIntensity: 0.55,
-    envMapIntensity: 0.7,
+    emissive: '#2a356f',
+    emissiveIntensity: 0.7,
+    envMapIntensity: 0.8,
   },
   copper: { color: '#6f4a22', metalness: 1, roughness: 0.5, envMapIntensity: 0.7 },
   glass: {
@@ -33,14 +62,14 @@ const MAT = {
 }
 
 /** A ring of thin blades that reads as a closed aperture behind the front glass. */
-function ApertureBlades() {
+function ApertureBlades({ mat }: { mat: Mats }) {
   const blades = useMemo(() => Array.from({ length: 7 }, (_, i) => (i / 7) * Math.PI * 2), [])
   return (
     <group position={[0, 0, 0.92]}>
       {blades.map((a, i) => (
         <mesh key={i} rotation={[0, 0, a]} position={[Math.cos(a) * 0.16, Math.sin(a) * 0.16, 0]}>
           <boxGeometry args={[0.42, 0.09, 0.015]} />
-          <meshStandardMaterial {...MAT.copper} />
+          <meshStandardMaterial {...mat.copper} />
         </mesh>
       ))}
     </group>
@@ -48,7 +77,19 @@ function ApertureBlades() {
 }
 
 /** A ring of small ridges that gives a dial its knurled texture. */
-function Knurl({ radius = 0.57, count = 56, size = 0.016, depth = 0.35 }) {
+function Knurl({
+  mat,
+  radius = 0.57,
+  count = 56,
+  size = 0.016,
+  depth = 0.35,
+}: {
+  mat: Mats
+  radius?: number
+  count?: number
+  size?: number
+  depth?: number
+}) {
   const items = useMemo(
     () => Array.from({ length: count }, (_, i) => (i / count) * Math.PI * 2),
     [count],
@@ -58,7 +99,7 @@ function Knurl({ radius = 0.57, count = 56, size = 0.016, depth = 0.35 }) {
       {items.map((a, i) => (
         <mesh key={i} rotation={[0, 0, a]} position={[Math.cos(a) * radius, Math.sin(a) * radius, 0]}>
           <boxGeometry args={[size, size * 1.6, depth]} />
-          <meshStandardMaterial {...MAT.darkMetal} />
+          <meshStandardMaterial {...mat.darkMetal} />
         </mesh>
       ))}
     </group>
@@ -68,10 +109,13 @@ function Knurl({ radius = 0.57, count = 56, size = 0.016, depth = 0.35 }) {
 export default function StudioCamera({
   progress,
   pointer,
+  tone = 'light',
 }: {
   progress: MotionValue<number>
   pointer: RefObject<{ x: number; y: number }>
+  tone?: 'light' | 'dark'
 }) {
+  const mat = tone === 'dark' ? MAT_DARK : MAT_LIGHT
   const group = useRef<THREE.Group>(null)
   const inner = useRef<THREE.Group>(null)
 
@@ -96,17 +140,17 @@ export default function StudioCamera({
         <group ref={inner} rotation={[-0.06, 0.35, 0]}>
           {/* ── Body ─────────────────────────────────────────── */}
           <RoundedBox args={[3.05, 2, 1]} radius={0.16} smoothness={5} castShadow receiveShadow>
-            <meshStandardMaterial {...MAT.body} />
+            <meshStandardMaterial {...mat.body} />
           </RoundedBox>
 
           {/* top plate */}
           <RoundedBox args={[3.02, 0.36, 1.01]} radius={0.1} smoothness={4} position={[0, 0.84, 0]} castShadow>
-            <meshStandardMaterial {...MAT.darkMetal} />
+            <meshStandardMaterial {...mat.darkMetal} />
           </RoundedBox>
 
           {/* EVF hump */}
           <RoundedBox args={[1.15, 0.52, 0.92]} radius={0.12} smoothness={4} position={[0, 1.16, -0.08]} castShadow>
-            <meshStandardMaterial {...MAT.body} />
+            <meshStandardMaterial {...mat.body} />
           </RoundedBox>
 
           {/* grip */}
@@ -117,83 +161,83 @@ export default function StudioCamera({
             position={[1.03, -0.06, 0.16]}
             castShadow
           >
-            <meshStandardMaterial {...MAT.leather} />
+            <meshStandardMaterial {...mat.leather} />
           </RoundedBox>
 
           {/* ── Lens mount ───────────────────────────────────── */}
           <mesh position={[0, 0, 0.5]} rotation={[Math.PI / 2, 0, 0]} castShadow>
             <cylinderGeometry args={[0.63, 0.63, 0.16, 64]} />
-            <meshStandardMaterial {...MAT.silver} />
+            <meshStandardMaterial {...mat.silver} />
           </mesh>
 
           {/* amber brand ring */}
           <mesh position={[0, 0, 0.585]} rotation={[Math.PI / 2, 0, 0]}>
             <cylinderGeometry args={[0.6, 0.6, 0.02, 64]} />
-            <meshStandardMaterial {...MAT.amber} />
+            <meshStandardMaterial {...mat.amber} />
           </mesh>
 
           {/* ── Lens barrel ──────────────────────────────────── */}
           <mesh position={[0, 0, 0.95]} rotation={[Math.PI / 2, 0, 0]} castShadow>
             <cylinderGeometry args={[0.53, 0.55, 0.92, 64]} />
-            <meshStandardMaterial {...MAT.body} />
+            <meshStandardMaterial {...mat.body} />
           </mesh>
 
           {/* focus ring */}
           <group position={[0, 0, 0.82]}>
             <mesh rotation={[Math.PI / 2, 0, 0]}>
               <cylinderGeometry args={[0.57, 0.57, 0.34, 64]} />
-              <meshStandardMaterial {...MAT.darkMetal} />
+              <meshStandardMaterial {...mat.darkMetal} />
             </mesh>
-            <Knurl radius={0.575} count={58} depth={0.33} />
+            <Knurl mat={mat} radius={0.575} count={58} depth={0.33} />
           </group>
 
           {/* zoom ring */}
           <mesh position={[0, 0, 1.24]} rotation={[Math.PI / 2, 0, 0]}>
             <cylinderGeometry args={[0.5, 0.5, 0.22, 64]} />
-            <meshStandardMaterial {...MAT.darkMetal} />
+            <meshStandardMaterial {...mat.darkMetal} />
           </mesh>
 
           {/* front bezel */}
           <mesh position={[0, 0, 1.37]} rotation={[Math.PI / 2, 0, 0]}>
             <cylinderGeometry args={[0.52, 0.5, 0.06, 64]} />
-            <meshStandardMaterial {...MAT.silver} />
+            <meshStandardMaterial {...mat.silver} />
           </mesh>
 
           {/* aperture blades, seen through the glass */}
-          <ApertureBlades />
+          <ApertureBlades mat={mat} />
 
           {/* front element, glass */}
           <mesh position={[0, 0, 1.35]} rotation={[Math.PI / 2, 0, 0]}>
             <sphereGeometry args={[0.47, 48, 32, 0, Math.PI * 2, 0, Math.PI / 2.4]} />
-            <meshPhysicalMaterial {...MAT.glass} />
+            <meshPhysicalMaterial {...mat.glass} />
           </mesh>
 
           {/* ── Top controls ─────────────────────────────────── */}
           <mesh position={[1.02, 1.06, 0.18]}>
             <cylinderGeometry args={[0.14, 0.14, 0.12, 40]} />
-            <meshStandardMaterial {...MAT.silver} />
+            <meshStandardMaterial {...mat.silver} />
           </mesh>
           <mesh position={[1.02, 1.12, 0.18]}>
             <cylinderGeometry args={[0.145, 0.145, 0.02, 40]} />
-            <meshStandardMaterial {...MAT.amber} />
+            <meshStandardMaterial {...mat.amber} />
           </mesh>
 
           <group position={[-0.92, 1.05, 0.05]}>
             <mesh>
               <cylinderGeometry args={[0.22, 0.22, 0.14, 40]} />
-              <meshStandardMaterial {...MAT.silver} />
+              <meshStandardMaterial {...mat.silver} />
             </mesh>
-            <Knurl radius={0.225} count={22} size={0.026} depth={0.13} />
+            <Knurl mat={mat} radius={0.225} count={22} size={0.026} depth={0.13} />
           </group>
 
           <mesh position={[0.55, 1.06, -0.12]}>
             <cylinderGeometry args={[0.16, 0.16, 0.12, 36]} />
-            <meshStandardMaterial {...MAT.silver} />
+            <meshStandardMaterial {...mat.silver} />
           </mesh>
 
           <mesh position={[0, 1.34, -0.08]}>
             <boxGeometry args={[0.5, 0.06, 0.44]} />
-            <meshStandardMaterial {...MAT.silver} />
+            <meshStandardMaterial {...mat.silver} />
           </mesh>
 
           {/* viewfinder window (rear) */}
@@ -208,17 +252,17 @@ export default function StudioCamera({
             <meshStandardMaterial color="#07090b" metalness={0.4} roughness={0.12} />
           </mesh>
           <RoundedBox args={[2.2, 1.48, 0.04]} radius={0.06} smoothness={3} position={[0, -0.05, -0.525]}>
-            <meshStandardMaterial {...MAT.body} />
+            <meshStandardMaterial {...mat.body} />
           </RoundedBox>
 
           {/* strap lugs */}
           <mesh position={[1.55, 0.42, -0.1]} rotation={[Math.PI / 2, 0, 0]}>
             <torusGeometry args={[0.08, 0.028, 12, 24]} />
-            <meshStandardMaterial {...MAT.silver} />
+            <meshStandardMaterial {...mat.silver} />
           </mesh>
           <mesh position={[-1.55, 0.42, -0.1]} rotation={[Math.PI / 2, 0, 0]}>
             <torusGeometry args={[0.08, 0.028, 12, 24]} />
-            <meshStandardMaterial {...MAT.silver} />
+            <meshStandardMaterial {...mat.silver} />
           </mesh>
 
           {/* engraved logo plate */}

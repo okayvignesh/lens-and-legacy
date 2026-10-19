@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState, type ReactNode } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { CaretLeft, CaretRight, X } from '@phosphor-icons/react'
 import { Reveal } from './Reveal'
+import { Bit, ApertureMark } from './Bits'
 import { lockScroll } from '../../lib/scroll'
 
 export type GalleryItem = { title: string; category: string; year: string; image: string }
@@ -62,7 +63,10 @@ export default function Gallery({
 
   return (
     <>
-      <section id={id} aria-label="Gallery" className={`px-5 py-24 md:px-10 md:py-36 ${className}`}>
+      <section id={id} aria-label="Gallery" className={`relative px-5 py-24 md:px-10 md:py-36 ${className}`}>
+        <Bit className="right-6 top-8 hidden h-20 w-20 lg:block" delay={0.5} duration={15} opacity={0.1}>
+          <ApertureMark className="h-full w-full" />
+        </Bit>
         <div className="mx-auto max-w-[1440px]">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
