@@ -4,8 +4,8 @@
    grotesk. A dark theme is available but optional.
    ───────────────────────────────────────────────────────────── */
 
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap');
-@import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Anton&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&f[]=sentient@400,500,700&f[]=cabinet-grotesk@400,500,700,800&display=swap');
 @import 'tailwindcss';
 
 @theme {
@@ -110,6 +110,80 @@
   --glow: #f1f0ec;
   --glow-alpha: 0.08;
   --glow-blend: screen;
+}
+
+/* ── Vertical pages ───────────────────────────────────────── */
+
+/* Sports — dark, electric blue, condensed */
+.theme-sports {
+  color-scheme: dark;
+  --bg: #080b14;
+  --fg: #eef1f6;
+  --muted: #98a2b3;
+  --faint: #5f6a7d;
+  --line: rgba(238, 241, 246, 0.12);
+  --line-strong: rgba(238, 241, 246, 0.22);
+  --accent: #3b6cff;
+  --accent-2: #6e92ff;
+  --accent-ink: #ffffff;
+  --surface: #0f1422;
+  --page-bg: #080b14;
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-ring: rgba(255, 255, 255, 0.12);
+  --glass-hi: rgba(255, 255, 255, 0.16);
+  --glow: #6e92ff;
+  --glow-alpha: 0.1;
+  --glow-blend: screen;
+  --font-display: 'Anton', 'Bricolage Grotesque', sans-serif;
+  --font-body: 'Satoshi', system-ui, sans-serif;
+}
+
+/* Weddings — ivory, dusty rose, serif */
+.theme-weddings {
+  color-scheme: light;
+  --bg: #faf7f2;
+  --fg: #1b1815;
+  --muted: #6b635b;
+  --faint: #9a9188;
+  --line: rgba(27, 24, 21, 0.12);
+  --line-strong: rgba(27, 24, 21, 0.22);
+  --accent: #b4786a;
+  --accent-2: #c99486;
+  --accent-ink: #ffffff;
+  --surface: #ffffff;
+  --page-bg: #faf7f2;
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-ring: rgba(27, 24, 21, 0.08);
+  --glass-hi: rgba(255, 255, 255, 0.95);
+  --glow: #1b1815;
+  --glow-alpha: 0.035;
+  --glow-blend: multiply;
+  --font-display: 'Sentient', Georgia, serif;
+  --font-body: 'Satoshi', system-ui, sans-serif;
+}
+
+/* Events — stone, emerald, grotesk */
+.theme-events {
+  color-scheme: light;
+  --bg: #f1f1ec;
+  --fg: #10201a;
+  --muted: #5a665f;
+  --faint: #8a948d;
+  --line: rgba(16, 32, 26, 0.12);
+  --line-strong: rgba(16, 32, 26, 0.22);
+  --accent: #0b5d45;
+  --accent-2: #0f7a5a;
+  --accent-ink: #ffffff;
+  --surface: #ffffff;
+  --page-bg: #f1f1ec;
+  --glass-bg: rgba(255, 255, 255, 0.62);
+  --glass-ring: rgba(16, 32, 26, 0.08);
+  --glass-hi: rgba(255, 255, 255, 0.95);
+  --glow: #10201a;
+  --glow-alpha: 0.035;
+  --glow-blend: multiply;
+  --font-display: 'Cabinet Grotesk', 'Satoshi', sans-serif;
+  --font-body: 'Satoshi', system-ui, sans-serif;
 }
 
 @layer base {

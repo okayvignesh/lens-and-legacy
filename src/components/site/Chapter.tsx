@@ -1,11 +1,20 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'motion/react'
+import { ArrowUpRight } from '@phosphor-icons/react'
 import type { Pillar } from '../../data/site'
 import { MaskText, Reveal } from '../ui/Reveal'
 import { Bit, LensRing, Dot } from '../ui/Bits'
 
 /** One of the three pillars, as an editorial image-and-story chapter. */
-export default function Chapter({ pillar, flip = false }: { pillar: Pillar; flip?: boolean }) {
+export default function Chapter({
+  pillar,
+  flip = false,
+  onExplore,
+}: {
+  pillar: Pillar
+  flip?: boolean
+  onExplore?: () => void
+}) {
   const reduce = useReducedMotion()
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
@@ -68,6 +77,21 @@ export default function Chapter({ pillar, flip = false }: { pillar: Pillar; flip
               ))}
             </div>
           </Reveal>
+
+          {onExplore && (
+            <Reveal delay={0.3}>
+              <button
+                type="button"
+                onClick={onExplore}
+                className="group mt-8 inline-flex items-center gap-3 rounded-full bg-[var(--accent)] py-2 pl-5 pr-2 text-[13px] font-medium text-[var(--accent-ink)] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5"
+              >
+                Explore {pillar.title}
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--accent-ink)]/15 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-[2px] group-hover:-translate-y-[1px]">
+                  <ArrowUpRight weight="bold" className="h-3.5 w-3.5" />
+                </span>
+              </button>
+            </Reveal>
+          )}
         </div>
       </div>
     </section>

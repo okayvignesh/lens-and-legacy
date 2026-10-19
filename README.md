@@ -1,9 +1,8 @@
-# Lens & Legacy, Art Directions
+# Lens & Legacy
 
-A premium landing experience for a photography, film and live-events studio,
-presented as **five complete art directions** plus a **design document**. Every
-direction is a full, responsive landing page built on one shared system, flip
-between them live with the control pinned to the bottom of the screen.
+A photography, film and event studio site: one studio landing page and **three
+vertical pages** — Sports, Weddings, and Special Occasions & Events — each with its
+own palette, type and layout.
 
 ---
 
@@ -11,150 +10,115 @@ between them live with the control pinned to the bottom of the screen.
 
 ```bash
 npm install
-npm run dev      # http://localhost:5173  → opens the design document
+npm run dev      # http://localhost:5173
 npm run build    # typecheck + production build
 npm run preview  # preview the build
 ```
 
-## Routes
+## Pages
 
-| URL | Screen |
-| --- | --- |
-| `/` | **01, Aurora** (the default direction) |
-| `/?v=aurora` | **01, Aurora** (dark · glass · lit camera) |
-| `/?v=reel` | **02, Reel** (dark · cinematic editorial) |
-| `/?v=chrome` | **03, Chrome Precision** (light · technical) |
-| `/?v=nocturne` | **04, Nocturne** (dark · immersive) |
-| `/?v=atelier` | **05, Atelier** (light · editorial portfolio) |
-| `/?v=doc` | Design document (not shown in the UI) |
+| URL | Page | Direction |
+| --- | --- | --- |
+| `/` | **Home** (the studio) | Paper + ink + cobalt, Bricolage Grotesque |
+| `/?page=sports` | **Sports** | Dark navy + electric blue, Anton |
+| `/?page=weddings` | **Weddings** | Ivory + dusty rose, Sentient serif |
+| `/?page=events` | **Special Occasions & Events** | Stone + emerald, Cabinet Grotesk |
 
-The floating switcher at the bottom of every screen jumps between the directions,
-and the URL updates so any direction is directly linkable. The design document is
-still available at `/?v=doc`, but it is deliberately hidden from the interface.
+The home page chapters link into each vertical; each vertical's wordmark and
+"All work" link return home. URLs are direct-linkable.
 
 ---
 
-## The five directions
+## The three verticals
 
-| # | Direction | Family | Palette | Type | Motion |
-| --- | --- | --- | --- | --- | --- |
-| 01 | **Aurora** | Modern premium / glass | off-black + spring mint | Clash Display / Satoshi | 6/10 |
-| 02 | **Reel** | Cinematic / editorial | near-black + film red | Panchang / Satoshi | 7/10 |
-| 03 | **Chrome Precision** | Technical product | silver + signal red | Switzer / Switzer (+ mono) | 6/10 |
-| 04 | **Nocturne** | Immersive narrative | ocean-ink + ice cyan | Cabinet Grotesk / Satoshi | 9/10 |
-| 05 | **Atelier** | Editorial portfolio | bone + near-black + cream | Switzer / General Sans (+ Boska italic) | 5/10 |
+| Page | Palette | Type | Character |
+| --- | --- | --- | --- |
+| **Sports** | `#080B14` · `#3B6CFF` | Anton + Satoshi | Cinematic, high-energy, matchday |
+| **Weddings** | `#FAF7F2` · `#B4786A` | Sentient + Satoshi | Editorial, romantic, quiet |
+| **Events** | `#F1F1EC` · `#0B5D45` | Cabinet Grotesk + Satoshi | Structured, polished, premium |
 
-Directions 02 (Reel) and 05 (Atelier) take their cues from Framer references the
-studio supplied, a cinematic call-sheet editorial, and an editorial portfolio.
-
-Each direction has its own page in the design document (`/`), with concept notes,
-palette swatches, type pairing, motion intensity and signature moves.
+The home page uses a light-first theme with an optional dark mode (moon icon in the
+nav). Each vertical page has a fixed theme of its own.
 
 ---
 
-## Architecture
+## Structure
 
 ```
 src/
-├─ App.tsx                  # router: ?v= → direction or doc, sets the theme class
-├─ index.css                # tokens, fonts, material utilities, theme classes
-├─ data/site.ts             # ← ALL content (edit this)
+├─ App.tsx                  # router: ?page= → Home | Sports | Weddings | Events
+├─ index.css                # tokens, fonts, utilities, theme classes
+├─ data/
+│  ├─ site.ts               # home content: brand, hero, pillars, gallery, stats
+│  └─ pages.ts              # vertical content: hero, intro, services, gallery, CTA
 ├─ lib/
-│  ├─ themes.ts             # metadata for the five directions (drives the doc)
-│  ├─ useVariant.ts         # URL-driven routing
-│  └─ gsap.ts / scroll.ts   # ScrollTrigger + Lenis helpers
-├─ doc/DesignDoc.tsx        # the design document
-├─ variants/
-│  ├─ Aurora.tsx            # 01, dark glass + lit camera
-│  ├─ Reel.tsx              # 02, cinematic editorial
-│  ├─ Chrome.tsx            # 03, technical product
-│  ├─ Nocturne.tsx          # 04, immersive narrative
-│  └─ Atelier.tsx           # 05, editorial portfolio
+│  ├─ usePage.ts            # URL routing
+│  ├─ theme.ts              # light/dark preference (home)
+│  ├─ scroll.ts / gsap.ts   # Lenis + ScrollTrigger helpers
+├─ pages/
+│  ├─ Home.tsx
+│  ├─ Sports.tsx
+│  ├─ Weddings.tsx
+│  └─ Events.tsx
 └─ components/
-   ├─ VariantSwitcher.tsx   # the floating control
-   ├─ CursorLayer.tsx       # global cursor light + hover labels
-   ├─ SmoothScroll.tsx      # Lenis ⇄ ScrollTrigger bridge
-   ├─ ui/                   # Reveal, MaskText, Cta, Categories, Gallery, Marquee
-   └─ three/                # Stage + procedural 3D (camera, lens, aperture)
+   ├─ CursorLayer.tsx       # cursor light, dot and hover labels
+   ├─ SmoothScroll.tsx      # Lenis ⇄ ScrollTrigger
+   ├─ ThemeToggle.tsx       # light / dark (home)
+   ├─ World.tsx             # the 3D camera stage
+   ├─ site/                 # Nav, Hero, Chapter, Contact, Footer, FilmStrip,
+   │                        # PageNav, PageFooter
+   ├─ three/StudioCamera.tsx
+   └─ ui/                   # Reveal, MaskText, Cta, Gallery, Marquee, Bits
 ```
 
-### How theming works
+### Theming
 
-Each direction defines the **same CSS variable names** in `src/index.css` under a
-theme class. `App.tsx` sets that class on `<html>`, and components read the
-variables, so one component reads correctly in every direction:
+Each page defines the same CSS variable names under a theme class in
+`src/index.css` (`.theme-sports`, `.theme-weddings`, `.theme-events`). `App.tsx`
+adds the class to `<html>`, and components read the variables:
 
 ```tsx
 <div className="bg-[var(--bg)] text-[var(--fg)] border-[var(--line)]">
   <h2 className="font-display">…</h2>
-  <p className="text-[var(--muted)]">…</p>
   <a className="bg-[var(--accent)] text-[var(--accent-ink)]">…</a>
 </div>
 ```
 
-**Material utilities** (also in `index.css`):
-
-- `glass`translucent fill + hairline ring + inner light. Safe on scrolling content.
-- `glass-blur`the same plus real `backdrop-filter`. Use only on fixed/sticky/hero surfaces.
-- `texture` / `texture-grid`a fine dot / line grid at low opacity, used instead of decorative gradients.
-- `CursorLayer` (`components/CursorLayer.tsx`)a theme-tinted light pool that follows the pointer, plus a glass label pill over any element carrying `data-cursor="Label"`. The native cursor is never hidden.
-
-Adding a seventh direction = one theme class in `index.css` + one entry in
-`lib/themes.ts` + one file in `variants/`.
+The home page uses `:root` (light) and `[data-theme="dark"]` for its optional dark
+mode. Vertical themes are defined after the dark block, so they always win.
 
 ---
 
-## Where to put your content
+## Editing content
 
-**Everything editable lives in [`src/data/site.ts`](src/data/site.ts)**, brand,
-nav, hero, the three pillars, services, projects, the gallery, testimonials, FAQs
-and footer. All five directions read from it, so a change propagates everywhere.
+- **Home:** `src/data/site.ts` — brand, hero, the three pillars, gallery, stats,
+  testimonial.
+- **Sports / Weddings / Events:** `src/data/pages.ts` — each page's hero, intro,
+  services, stats, gallery, testimonial and CTA.
+- **Home gallery:** the `gallery` array in `site.ts`.
+- **Vertical galleries:** the `gallery` array inside each entry in `pages.ts`.
 
-### The three pillars
-
-The studio runs on three core pillars, defined once as `categories` and reused by
-every direction's "What we do" section (via the shared `Categories` component):
-
-1. **Sports**, media, events, digital, sponsorships, event operations
-2. **Weddings**, photography, cinematic films, candid, pre-wedding, celebrations
-3. **Special Occasions & Events**, engagements, naming ceremonies, corporate
-   events, podcasts, schools, colleges, institutions
-
-`gallery` holds the full archive shown by the shared `Gallery` component (a
-masonry with a keyboard-accessible lightbox), which every direction includes.
-
-### Imagery
-
-The directions use `picsum.photos` placeholders with descriptive seeds. Replace
-each `https://picsum.photos/...` URL with your own imagery (local import or CDN).
-Recommended ratios: `studio.image` 4:5, `services[].image` 7:5, `work[].image` 3:4.
+Images are `picsum.photos` placeholders. Replace the URLs with your own; recommended
+ratios are portrait (4:5) for people, landscape (3:2) for events.
 
 ---
 
 ## The 3D
 
-Everything is procedural, there are no model files to download.
-
-- **Aurora**, a lit mirrorless camera (`components/three/StudioCamera.tsx`).
-- **Reel / Chrome**, a machined lens (`components/three/objects.tsx` → `ChromeLens`).
-- **Nocturne**, a glass aperture (`objects.tsx` → `GlassAperture`).
-
-All are lit by a shared studio rig in `components/three/Stage.tsx`, react to the
-pointer and the page scroll, and are code-split so three.js only loads for the
-direction you open.
+`components/World.tsx` renders a procedural camera (no model files) in a studio
+rig. It is light chrome in the light theme and graphite in the dark theme, reacts to
+the pointer and scroll, and is lazy-loaded so three.js stays out of the initial
+bundle.
 
 ## Accessibility & performance
 
-- Skip link, semantic landmarks, visible focus rings, one-line button labels.
-- All animation runs on `transform` / `opacity` and collapses under
-  `prefers-reduced-motion`.
-- Each direction is its own lazy chunk; the 3D sits in a further chunk.
-- Film grain is a fixed `pointer-events-none` overlay, never on scrolling content.
-- `backdrop-filter` is confined to the nav and hero surfaces.
+- Skip link, landmarks, alt text, visible focus, one-line button labels.
+- Animation uses transform/opacity and respects `prefers-reduced-motion`.
+- The 3D and vendor libraries are code-split; the main bundle is ~79 KB gzipped.
+- `backdrop-filter` is limited to the nav and small overlays.
 
 ## Next steps
 
-1. Replace copy and imagery in `src/data/site.ts`.
-2. Pick a direction (or keep all five and A/B them).
-3. Wire a contact form to a real endpoint (the current directions link to `mailto:`).
-4. Add a Journal/blog route and an individual project template if needed.
+1. Replace the placeholder imagery with real work.
+2. Wire the CTAs to a real contact form or booking flow.
+3. Add individual project pages if you want a deeper case study per commission.
