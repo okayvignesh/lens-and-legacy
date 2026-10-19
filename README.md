@@ -20,7 +20,7 @@ npm run preview  # preview the build
 | URL | Page | Direction |
 | --- | --- | --- |
 | `/` | **Home** (the studio) | Paper + ink + cobalt, Bricolage Grotesque |
-| `/?page=sports` | **Sports** | Dark navy + electric blue, Anton |
+| `/?page=sports` | **Sports** | Chalk + signal vermilion, Clash Display |
 | `/?page=weddings` | **Weddings** | Ivory + dusty rose, Sentient serif |
 | `/?page=events` | **Special Occasions & Events** | Stone + emerald, Cabinet Grotesk |
 
@@ -33,7 +33,7 @@ The home page chapters link into each vertical; each vertical's wordmark and
 
 | Page | Palette | Type | Character |
 | --- | --- | --- | --- |
-| **Sports** | `#080B14` · `#3B6CFF` | Anton + Satoshi | Cinematic, high-energy, matchday |
+| **Sports** | `#F1F2EF` · `#BF3A15` | Clash Display + Satoshi | Editorial, high-energy, matchday |
 | **Weddings** | `#FAF7F2` · `#B4786A` | Sentient + Satoshi | Editorial, romantic, quiet |
 | **Events** | `#F1F1EC` · `#0B5D45` | Cabinet Grotesk + Satoshi | Structured, polished, premium |
 

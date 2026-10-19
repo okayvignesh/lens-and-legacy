@@ -115,7 +115,7 @@ function CapabilityBand() {
     <div key={key} className="flex shrink-0 items-center">
       {CAPABILITIES.map((item) => (
         <span key={`${key}-${item}`} className="flex items-center">
-          <span className="px-5 font-display text-[clamp(1.25rem,2.6vw,1.9rem)] font-normal uppercase tracking-tight text-[var(--fg)]/85 md:px-8">
+          <span className="px-5 font-display text-[clamp(1.25rem,2.6vw,1.9rem)] font-medium uppercase tracking-tight text-[var(--fg)]/85 md:px-8">
             {item}
           </span>
           <span className="h-1.5 w-1.5 shrink-0 rotate-45 bg-[var(--accent)]" aria-hidden />
@@ -150,8 +150,7 @@ export default function Sports({ onHome }: { onHome: () => void }) {
     target: heroRef,
     offset: ['start start', 'end start'],
   })
-  const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '14%'])
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.9], [1, 0.35])
+  const heroY = useTransform(scrollYProgress, [0, 1], ['-4%', '8%'])
 
   const mailto = `mailto:${brand.email}?subject=${encodeURIComponent('Sports coverage enquiry')}`
 
@@ -163,46 +162,18 @@ export default function Sports({ onHome }: { onHome: () => void }) {
         {/* ── Hero ─────────────────────────────────────────────── */}
         <section
           ref={heroRef}
-          className="relative flex min-h-[100dvh] flex-col overflow-hidden"
+          className="relative overflow-hidden px-5 pb-10 pt-28 md:px-10 md:pb-12 md:pt-32"
         >
-          <div aria-hidden className="absolute inset-0 overflow-hidden">
-            <motion.img
-              src={page.hero.image}
-              alt=""
-              style={reduce ? undefined : { y: heroY, scale: 1.1 }}
-              className="h-full w-full object-cover object-[50%_40%] will-change-transform"
-            />
-            <div
-              aria-hidden
-              className="absolute inset-0"
-              style={{ background: 'color-mix(in oklab, var(--bg) 45%, transparent)' }}
-            />
-            <div
-              aria-hidden
-              className="absolute inset-0"
-              style={{
-                background:
-                  'linear-gradient(to top, var(--bg) 0%, color-mix(in oklab, var(--bg) 65%, transparent) 55%, transparent 100%)',
-              }}
-            />
-            <div
-              aria-hidden
-              className="absolute inset-0"
-              style={{
-                background:
-                  'linear-gradient(to right, color-mix(in oklab, var(--bg) 92%, transparent) 0%, color-mix(in oklab, var(--bg) 55%, transparent) 55%, transparent 100%)',
-              }}
-            />
-            <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-[var(--bg)]/85 to-transparent" />
-          </div>
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-32 top-4 h-[52vh] w-[52vh] rounded-full opacity-[0.06] blur-[100px]"
+            style={{ background: 'var(--accent)' }}
+          />
 
-          <motion.div
-            style={reduce ? undefined : { opacity: heroOpacity }}
-            className="relative z-10 mx-auto flex w-full max-w-[1440px] flex-1 flex-col justify-end px-5 pb-12 pt-32 md:px-10 md:pb-16 md:pt-40"
-          >
-            <div className="max-w-[1150px]">
+          <div className="relative mx-auto grid min-h-[calc(100dvh-11rem)] w-full max-w-[1440px] grid-cols-1 items-center gap-12 md:grid-cols-12 md:gap-10">
+            <div className="md:col-span-7">
               <Reveal>
-                <span className="inline-flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.24em] text-[var(--fg)]/80">
+                <span className="inline-flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.24em] text-[var(--muted)]">
                   <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" aria-hidden />
                   {page.hero.eyebrow}
                 </span>
@@ -212,11 +183,11 @@ export default function Sports({ onHome }: { onHome: () => void }) {
                 as="h1"
                 lines={page.hero.headline}
                 delay={0.1}
-                className="mt-6 font-display font-normal uppercase leading-[0.84] tracking-[-0.015em] text-[var(--fg)] text-edge text-[clamp(3.6rem,11.5vw,9.5rem)] [&>span:last-child>span]:text-[var(--accent)]"
+                className="mt-6 font-display font-medium uppercase leading-[0.84] tracking-[-0.03em] text-[var(--fg)] text-edge text-[clamp(3.4rem,9.4vw,8rem)] [&>span:last-child>span]:text-[var(--accent)]"
               />
 
               <Reveal delay={0.38}>
-                <p className="mt-7 max-w-[44ch] text-[16px] leading-relaxed text-[var(--fg)]/80 md:text-[17px]">
+                <p className="mt-7 max-w-[46ch] text-[16px] leading-relaxed text-[var(--muted)] md:text-[17px]">
                   {page.hero.sub}
                 </p>
               </Reveal>
@@ -231,35 +202,65 @@ export default function Sports({ onHome }: { onHome: () => void }) {
                   </Cta>
                 </div>
               </Reveal>
+
+              <Reveal delay={0.56}>
+                <dl className="mt-12 flex flex-wrap items-baseline gap-x-10 gap-y-4 border-t border-[var(--line)] pt-6">
+                  {page.hero.meta.map((m) => (
+                    <div key={m.k} className="flex items-baseline gap-2.5">
+                      <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--muted)]">
+                        {m.k}
+                      </dt>
+                      <dd className="font-display text-[1.1rem] font-medium leading-none text-[var(--fg)]">
+                        {m.v}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </Reveal>
             </div>
-          </motion.div>
 
-          <div className="relative z-10 border-t border-[var(--line)] bg-[var(--bg)]/35 backdrop-blur-md">
-            <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-5 px-5 py-5 sm:flex-row sm:items-center sm:justify-between md:px-10">
-              <dl className="flex flex-wrap items-baseline gap-x-10 gap-y-3">
-                {page.hero.meta.map((m) => (
-                  <div key={m.k} className="flex items-baseline gap-2.5">
-                    <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--muted)]">
-                      {m.k}
-                    </dt>
-                    <dd className="font-display text-[1.15rem] font-normal leading-none text-[var(--fg)]">
-                      {m.v}
-                    </dd>
+            <div className="md:col-span-5">
+              <Reveal delay={0.2} y={30}>
+                <div className="relative aspect-[4/5] overflow-hidden rounded-[1.6rem] ring-1 ring-inset ring-[var(--line)]">
+                  <motion.img
+                    src={page.hero.image}
+                    alt="Lens & Legacy sports coverage"
+                    style={reduce ? undefined : { y: heroY, scale: 1.18 }}
+                    className="h-full w-full object-cover will-change-transform"
+                  />
+                  <div
+                    aria-hidden
+                    className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black/45 to-transparent"
+                  />
+                  <div className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-3 rounded-full bg-[var(--surface)]/90 py-2 pl-4 pr-2 backdrop-blur-md">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--fg)]">
+                      On the ground · Kodagu
+                    </span>
+                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--accent)] text-[var(--accent-ink)]">
+                      <ArrowUpRight weight="bold" className="h-3.5 w-3.5" />
+                    </span>
                   </div>
-                ))}
-              </dl>
+                </div>
+              </Reveal>
 
-              <a
-                href="#story"
-                aria-label="Scroll to the story"
-                className="group inline-flex items-center gap-3 self-start font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--muted)] transition-colors hover:text-[var(--fg)] sm:self-auto"
-              >
-                Scroll
-                <span className="relative block h-8 w-px overflow-hidden bg-[var(--line-strong)]">
-                  <span className="absolute inset-x-0 top-0 block h-3 animate-scroll-hint bg-[var(--accent)]" />
-                </span>
-                <ArrowDown weight="bold" className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-y-0.5" />
-              </a>
+              <Reveal delay={0.34}>
+                <div className="mt-4 flex items-center justify-between border-t border-[var(--line)] pt-4">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--faint)]">
+                    01 / Matchday
+                  </span>
+                  <a
+                    href="#story"
+                    aria-label="Scroll to the story"
+                    className="group inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--muted)] transition-colors hover:text-[var(--fg)]"
+                  >
+                    Scroll
+                    <span className="relative block h-6 w-px overflow-hidden bg-[var(--line-strong)]">
+                      <span className="absolute inset-x-0 top-0 block h-2.5 animate-scroll-hint bg-[var(--accent)]" />
+                    </span>
+                    <ArrowDown weight="bold" className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-y-0.5" />
+                  </a>
+                </div>
+              </Reveal>
             </div>
           </div>
         </section>
@@ -275,7 +276,7 @@ export default function Sports({ onHome }: { onHome: () => void }) {
                   i === 0 ? 'md:border-l-0 md:pl-0' : ''
                 }`}
               >
-                <div className="font-display text-[clamp(2.6rem,5vw,4.2rem)] font-normal leading-none tracking-tight text-[var(--fg)]">
+                <div className="font-display text-[clamp(2.6rem,5vw,4.2rem)] font-medium leading-none tracking-tight text-[var(--fg)]">
                   {s.value}
                 </div>
                 <div className="mt-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--muted)]">
@@ -299,7 +300,7 @@ export default function Sports({ onHome }: { onHome: () => void }) {
               <Reveal delay={0.08}>
                 <div
                   aria-hidden
-                  className="mt-2 font-display text-[clamp(6rem,12vw,10rem)] font-normal leading-[0.8] tracking-tight text-[var(--line-strong)]"
+                  className="mt-2 font-display text-[clamp(6rem,12vw,10rem)] font-medium leading-[0.8] tracking-tight text-[var(--line-strong)]"
                 >
                   01
                 </div>
@@ -321,7 +322,7 @@ export default function Sports({ onHome }: { onHome: () => void }) {
               <MaskText
                 as="h2"
                 lines={[page.intro.lead]}
-                className="max-w-[24ch] font-display text-[clamp(1.9rem,3.6vw,3.2rem)] font-normal uppercase leading-[1.02] tracking-tight text-[var(--fg)]"
+                className="max-w-[24ch] font-display text-[clamp(1.9rem,3.6vw,3.2rem)] font-medium uppercase leading-[1.02] tracking-tight text-[var(--fg)]"
               />
 
               <Reveal delay={0.14}>
@@ -364,7 +365,7 @@ export default function Sports({ onHome }: { onHome: () => void }) {
                 <MaskText
                   as="h2"
                   lines={['From the tunnel', 'to the final whistle.']}
-                  className="mt-4 font-display text-[clamp(2rem,5.4vw,4.6rem)] font-normal uppercase leading-[0.9] tracking-tight text-[var(--fg)]"
+                  className="mt-4 font-display text-[clamp(2rem,5.4vw,4.6rem)] font-medium uppercase leading-[0.9] tracking-tight text-[var(--fg)]"
                 />
               </div>
               <Reveal delay={0.12} className="md:col-span-4">
@@ -401,7 +402,7 @@ export default function Sports({ onHome }: { onHome: () => void }) {
 
                         <div className="mt-5 flex items-start justify-between gap-5 border-t border-[var(--line)] pt-4">
                           <div>
-                            <h3 className="font-display text-[clamp(1.8rem,3vw,2.7rem)] font-normal uppercase leading-[0.95] tracking-tight text-[var(--fg)] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1">
+                            <h3 className="font-display text-[clamp(1.8rem,3vw,2.7rem)] font-medium uppercase leading-[0.95] tracking-tight text-[var(--fg)] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1">
                               {s.title}
                             </h3>
                             <p className="mt-3 max-w-[40ch] text-[14px] leading-relaxed text-[var(--muted)]">
@@ -416,7 +417,7 @@ export default function Sports({ onHome }: { onHome: () => void }) {
                       </article>
                     ) : (
                       <article
-                        className={`group flex h-full flex-col justify-between transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 ${
+                        className={`group flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 ${
                           cfg.boxed
                             ? 'glass rounded-2xl p-6 md:min-h-[280px] md:p-7'
                             : 'border-t border-[var(--line)] pt-5'
@@ -433,7 +434,7 @@ export default function Sports({ onHome }: { onHome: () => void }) {
                         </div>
 
                         <div className="mt-9">
-                          <h3 className="font-display text-[clamp(1.8rem,3vw,2.7rem)] font-normal uppercase leading-[0.95] tracking-tight text-[var(--fg)]">
+                          <h3 className="font-display text-[clamp(1.8rem,3vw,2.7rem)] font-medium uppercase leading-[0.95] tracking-tight text-[var(--fg)]">
                             {s.title}
                           </h3>
                           <p className="mt-3 max-w-[34ch] text-[14px] leading-relaxed text-[var(--muted)]">
@@ -475,7 +476,7 @@ export default function Sports({ onHome }: { onHome: () => void }) {
                 <MaskText
                   as="h2"
                   lines={['A calm', 'run of show.']}
-                  className="mt-4 font-display text-[clamp(2.4rem,4.6vw,4rem)] font-normal uppercase leading-[0.9] tracking-tight text-[var(--fg)]"
+                  className="mt-4 font-display text-[clamp(2.4rem,4.6vw,4rem)] font-medium uppercase leading-[0.9] tracking-tight text-[var(--fg)]"
                 />
                 <Reveal delay={0.12}>
                   <p className="mt-6 max-w-[32ch] text-[15px] leading-relaxed text-[var(--muted)]">
@@ -497,7 +498,7 @@ export default function Sports({ onHome }: { onHome: () => void }) {
                     {String(i + 1).padStart(2, '0')}
                   </span>
                   <div>
-                    <h3 className="font-display text-[clamp(1.6rem,2.6vw,2.3rem)] font-normal uppercase leading-none tracking-tight text-[var(--fg)]">
+                    <h3 className="font-display text-[clamp(1.6rem,2.6vw,2.3rem)] font-medium uppercase leading-none tracking-tight text-[var(--fg)]">
                       {step.title}
                     </h3>
                     <p className="mt-3 max-w-[52ch] text-[15px] leading-relaxed text-[var(--muted)]">
@@ -532,7 +533,7 @@ export default function Sports({ onHome }: { onHome: () => void }) {
               <Reveal delay={0.08}>
                 <div
                   aria-hidden
-                  className="mt-3 font-display text-[clamp(4rem,8vw,7rem)] font-normal leading-[0.8] text-[var(--line-strong)]"
+                  className="mt-3 font-display text-[clamp(4rem,8vw,7rem)] font-medium leading-[0.8] text-[var(--line-strong)]"
                 >
                   “
                 </div>
@@ -541,13 +542,13 @@ export default function Sports({ onHome }: { onHome: () => void }) {
 
             <figure className="md:col-span-9">
               <Reveal y={34}>
-                <blockquote className="max-w-[24ch] font-display text-[clamp(1.7rem,3.8vw,3.1rem)] font-normal uppercase leading-[1.08] tracking-tight text-[var(--fg)] md:max-w-[28ch]">
+                <blockquote className="max-w-[24ch] font-display text-[clamp(1.7rem,3.8vw,3.1rem)] font-medium uppercase leading-[1.08] tracking-tight text-[var(--fg)] md:max-w-[28ch]">
                   {page.testimonial.quote}
                 </blockquote>
               </Reveal>
               <Reveal delay={0.14}>
                 <figcaption className="mt-8 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-[var(--line)] pt-5">
-                  <span className="font-display text-[1.05rem] font-normal uppercase tracking-tight text-[var(--fg)]">
+                  <span className="font-display text-[1.05rem] font-medium uppercase tracking-tight text-[var(--fg)]">
                     {page.testimonial.name}
                   </span>
                   <span className="h-1 w-1 rounded-full bg-[var(--accent)]" aria-hidden />
@@ -585,7 +586,7 @@ export default function Sports({ onHome }: { onHome: () => void }) {
             <MaskText
               as="h2"
               lines={page.cta.headline}
-              className="mt-5 font-display text-[clamp(2.8rem,7.5vw,6rem)] font-normal uppercase leading-[0.88] tracking-tight text-[var(--fg)]"
+              className="mt-5 font-display text-[clamp(2.8rem,7.5vw,6rem)] font-medium uppercase leading-[0.88] tracking-tight text-[var(--fg)]"
             />
 
             <Reveal delay={0.16}>
