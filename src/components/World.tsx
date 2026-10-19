@@ -1,6 +1,6 @@
 import { Suspense, useEffect, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Environment, Lightformer, ContactShadows } from '@react-three/drei'
+import { Environment, Lightformer } from '@react-three/drei'
 import { useScroll } from 'motion/react'
 import * as THREE from 'three'
 import StudioCamera from './three/StudioCamera'
@@ -93,15 +93,6 @@ export default function CameraStage() {
             <StudioCamera progress={scrollYProgress} pointer={pointer} tone={theme} />
           </Drift>
         </Suspense>
-
-        <ContactShadows
-          position={[0, -2.1, 0]}
-          opacity={dark ? 0.5 : 0.28}
-          scale={14}
-          blur={3.2}
-          far={6}
-          color={dark ? '#000000' : '#1b1b22'}
-        />
       </Canvas>
     </div>
   )

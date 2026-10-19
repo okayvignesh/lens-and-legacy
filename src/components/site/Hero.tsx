@@ -78,6 +78,14 @@ export default function Hero() {
         </motion.div>
 
         <div className="relative h-[46vh] md:col-span-6 md:h-[76vh]">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute bottom-[6%] left-1/2 h-[7%] w-[60%] -translate-x-1/2 rounded-[50%] blur-md"
+            style={{
+              background:
+                'radial-gradient(50% 50% at 50% 50%, rgba(12,12,14,0.32) 0%, rgba(12,12,14,0.15) 44%, rgba(12,12,14,0) 74%)',
+            }}
+          />
           <Suspense fallback={null}>
             <CameraStage />
           </Suspense>
