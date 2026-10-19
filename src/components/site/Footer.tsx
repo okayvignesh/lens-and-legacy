@@ -1,6 +1,8 @@
 import { ArrowUpRight } from '@phosphor-icons/react'
 import { brand } from '../../data/site'
 
+const YEAR = new Date().getFullYear()
+
 export default function Footer() {
   return (
     <footer className="border-t border-[var(--line)] px-5 pb-24 pt-12 md:px-10 md:pb-28 md:pt-16">
@@ -30,7 +32,7 @@ export default function Footer() {
 
       <div className="mx-auto mt-12 flex max-w-[1200px] flex-col gap-3 border-t border-[var(--line)] pt-6 text-[12px] text-[var(--faint)] md:flex-row md:items-center md:justify-between">
         <span>
-          © {new Date().getFullYear()} {brand.name}. All rights reserved.
+          © {YEAR} {brand.name}. All rights reserved.
         </span>
         <a href="#top" className="inline-flex items-center gap-2 transition-colors hover:text-[var(--muted)]">
           Back to top <ArrowUpRight weight="bold" className="h-3.5 w-3.5" />

@@ -1,10 +1,12 @@
-import { useRef } from 'react'
+import { lazy, Suspense, useRef } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'motion/react'
 import { hero, CTA_PRIMARY, CTA_WORK } from '../../data/site'
 import { MaskText, Reveal } from '../ui/Reveal'
 import Cta from '../ui/Cta'
 import { Bit, FilmFrame } from '../ui/Bits'
-import CameraStage from '../World'
+
+// The 3D rig is heavy; let the layout paint before three.js arrives.
+const CameraStage = lazy(() => import('../World'))
 
 export default function Hero() {
   const reduce = useReducedMotion()
@@ -76,7 +78,9 @@ export default function Hero() {
         </motion.div>
 
         <div className="relative h-[46vh] md:col-span-6 md:h-[76vh]">
-          <CameraStage />
+          <Suspense fallback={null}>
+            <CameraStage />
+          </Suspense>
           <span className="pointer-events-none absolute bottom-2 left-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--faint)]">
             On set · Studio camera
           </span>
