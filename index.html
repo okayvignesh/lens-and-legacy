@@ -4,14 +4,20 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#08080A" />
+    <meta name="theme-color" content="#f4f4f2" />
     <meta
       name="description"
-      content="Lens & Legacy is a photography and film studio for weddings, brands and events. We don't record moments. We build the record of them."
+      content="Lens & Legacy is a photography, film and event studio for sport, weddings and special occasions. We capture the moments that deserve to be remembered."
     />
     <title>Lens &amp; Legacy — Photography, Film &amp; Event Studio</title>
-    <link rel="preconnect" href="https://api.fontshare.com" />
-    <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
+    <script>
+      // Light is the default. Dark is opt-in and remembered.
+      try {
+        if (localStorage.getItem('theme') === 'dark') {
+          document.documentElement.dataset.theme = 'dark'
+        }
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>
